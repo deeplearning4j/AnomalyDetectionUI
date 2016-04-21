@@ -1,0 +1,1 @@
+java -cp DemoUI-1.0.jar org.deeplearning4j.examples.LaunchDropWizard

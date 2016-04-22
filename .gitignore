@@ -8,10 +8,8 @@ target/
 application.home_IS_UNDEFINEiD
 README.md~
 *.jpg
-*.png
 *.releaseBackup
 *.jpg
-*.png
 *.out
 *~
 *.iml
@@ -19,7 +17,6 @@ README.md~
 release.properties
 .idea/
 *.iml
-*.png
 *.prefs
 *.settings/*
 model-saver-*

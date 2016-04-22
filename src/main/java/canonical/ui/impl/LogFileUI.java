@@ -140,7 +140,7 @@ public class LogFileUI extends StreamingUI {
 
         updateUI("Overview",deployTable);
 
-        System.out.println("***** LogFileUI: called updateUI *****");
+//        System.out.println("***** LogFileUI: called updateUI *****");
     }
 
     private void createConfigTables(StreamedConfig streamedConfig){

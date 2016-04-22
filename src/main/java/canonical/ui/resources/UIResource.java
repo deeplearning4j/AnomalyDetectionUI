@@ -45,7 +45,7 @@ public class UIResource {
         lastComponentsForResource.put(resourceName, components);
         lastUpdateTimeForResource.put(resourceName, System.currentTimeMillis());
 
-        System.out.println("*** GOT COMPONENTS FOR RESOURCE: + \"" + resourceName + "\", Components = " + components);
+//        System.out.println("*** GOT COMPONENTS FOR RESOURCE: + \"" + resourceName + "\", Components = " + components);
         return Response.ok(Collections.singletonMap("status", "ok")).build();
     }
 
@@ -55,7 +55,7 @@ public class UIResource {
     public Response getComponents(@PathParam("resource") String resourceName){
         List<Component> components = lastComponentsForResource.get(resourceName);
         if(components == null) components = Collections.emptyList();
-        System.out.println("**** UIResource: Returning values for resource \"" + resourceName + "\": " + components);
+//        System.out.println("**** UIResource: Returning values for resource \"" + resourceName + "\": " + components);
         return Response.ok(components).build();
     }
 

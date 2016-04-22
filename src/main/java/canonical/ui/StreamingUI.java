@@ -123,7 +123,7 @@ public abstract class StreamingUI extends Application<UiConfig> {
      * Receive a multiple predictions (to be processed and/or displayed in the UI)
      */
     public void receivePredictions(List<Object> predictions) {
-        System.out.println("***** StreamingUI.receivePredictions() called: ***** " + predictions);
+//        System.out.println("***** StreamingUI.receivePredictions() called: ***** " + predictions);
         predictionsToProcess.addAll(predictions);
     }
 
@@ -145,7 +145,7 @@ public abstract class StreamingUI extends Application<UiConfig> {
 
 //        lastUIComponentUpdateTime = System.currentTimeMillis();
 //        System.out.println("***** UPDATEUI WAS CALLED. TIME=" + lastUIComponentUpdateTime + " *****");
-        System.out.println("***** UPDATEUI WAS CALLED FOR RESOURCE \"" + resource + "\". TIME=" + update.time + " *****");
+//        System.out.println("***** UPDATEUI WAS CALLED FOR RESOURCE \"" + resource + "\". TIME=" + update.time + " *****");
     }
 
     /**
@@ -170,7 +170,7 @@ public abstract class StreamingUI extends Application<UiConfig> {
 
         private void runHelper() {
 
-            System.out.println("***** WE'RE DOING THE PROCESSING THING *****");
+//            System.out.println("***** WE'RE DOING THE PROCESSING THING *****");
 
             List<Object> list = new ArrayList<>(100);
 
@@ -184,7 +184,7 @@ public abstract class StreamingUI extends Application<UiConfig> {
                 }
                 predictionsToProcess.drainTo(list);      //Doesn't block, but retrieves + removes all elements
 
-                System.out.println("***** GOT SOME DATA *****");
+//                System.out.println("***** GOT SOME DATA *****");
                 processRecords(list);
                 list.clear();
 
@@ -216,7 +216,7 @@ public abstract class StreamingUI extends Application<UiConfig> {
                             .post(Entity.entity(lastUpdate.components, MediaType.APPLICATION_JSON));
                     if(resp.getStatus() >= 400 && resp.getStatus() < 600) log.warn("UI update response for resource \"{}\": {}",resource,resp);
 
-                    System.out.println("***** POSTED UPDATE FOR RESOURCE \"" + resource + "\": " + lastUpdate);
+//                    System.out.println("***** POSTED UPDATE FOR RESOURCE \"" + resource + "\": " + lastUpdate);
                 }
 
                 //Now, wait a bit before running the UI update loop again...

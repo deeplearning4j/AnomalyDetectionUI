@@ -28,8 +28,8 @@
     <properties>
         <logback.version>1.1.2</logback.version>
         <lombok.version>1.16.8</lombok.version>
-        <nd4j.version>0.4-rc3.9-SNAPSHOT</nd4j.version>
-        <dl4j.version>0.4-rc3.9-SNAPSHOT</dl4j.version>
+        <nd4j.version>0.4-rc3.9</nd4j.version>
+        <dl4j.version>0.4-rc3.9</dl4j.version>
         <dropwizard.version>0.9.2</dropwizard.version>
     </properties>
 

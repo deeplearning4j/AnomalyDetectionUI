@@ -6,7 +6,7 @@ import canonical.streaming.StreamedConfig;
 import canonical.streaming.StreamedValue;
 import canonical.ui.StreamingUI;
 import org.canova.api.writable.Writable;
-import org.deeplearning4j.preprocessing.api.schema.SequenceSchema;
+import io.skymind.echidna.api.schema.SequenceSchema;
 import org.deeplearning4j.ui.api.Component;
 import org.deeplearning4j.ui.components.chart.ChartLine;
 import org.deeplearning4j.ui.components.chart.ChartStackedArea;

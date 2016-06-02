@@ -31,6 +31,8 @@
         <nd4j.version>0.4-rc3.9</nd4j.version>
         <dl4j.version>0.4-rc3.9</dl4j.version>
         <dropwizard.version>0.9.2</dropwizard.version>
+        <echidna.version>0.0.0.16-SNAPSHOT</echidna.version>
+        <scala.binary.version>2.10</scala.binary.version>
     </properties>
 
     <build>
@@ -113,11 +115,17 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>org.projectlombok</groupId>-->
-            <!--<artifactId>lombok</artifactId>-->
-            <!--<version>${lombok.version}</version>-->
-        <!--</dependency>-->
+        <!--For data preprocessing-->
+        <dependency>
+            <groupId>io.skymind</groupId>
+            <artifactId>echidna-core</artifactId>
+            <version>${echidna.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.skymind</groupId>
+            <artifactId>echidna-spark_${scala.binary.version}</artifactId>
+            <version>${echidna.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -199,13 +207,6 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-afterburner</artifactId>
             <version>2.4.4</version>
-        </dependency>
-
-        <!--For data preprocessing-->
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>echidna</artifactId>
-            <version>0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- Force version of Guava, instead of 15.0 pulled in as a transitive dependency with jackson-datatype-guava... -->

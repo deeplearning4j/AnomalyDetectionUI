@@ -1,6 +1,7 @@
 package canonical;
 
-import org.deeplearning4j.preprocessing.api.schema.SequenceSchema;
+
+import io.skymind.echidna.api.schema.SequenceSchema;
 
 import java.net.URI;
 import java.util.ArrayList;

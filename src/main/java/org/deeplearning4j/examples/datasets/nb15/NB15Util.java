@@ -1,27 +1,23 @@
 package org.deeplearning4j.examples.datasets.nb15;
 
-import org.apache.spark.api.java.JavaRDD;
-import org.canova.api.berkeley.Triple;
-import org.canova.api.writable.Writable;
-import org.deeplearning4j.preprocessing.api.TransformProcess;
-import org.deeplearning4j.preprocessing.api.analysis.DataAnalysis;
-import org.deeplearning4j.preprocessing.api.schema.SequenceSchema;
-import org.deeplearning4j.preprocessing.api.sequence.SplitMaxLengthSequence;
-import org.deeplearning4j.preprocessing.api.sequence.comparator.StringComparator;
-import org.deeplearning4j.preprocessing.spark.SparkTransformExecutor;
-import org.deeplearning4j.preprocessing.api.filter.FilterInvalidValues;
-import org.deeplearning4j.preprocessing.api.schema.Schema;
-import org.deeplearning4j.preprocessing.api.transform.ConditionalTransform;
-import org.deeplearning4j.preprocessing.api.transform.categorical.CategoricalToIntegerTransform;
-import org.deeplearning4j.preprocessing.api.transform.categorical.IntegerToCategoricalTransform;
-import org.deeplearning4j.preprocessing.api.transform.categorical.StringToCategoricalTransform;
-import org.deeplearning4j.preprocessing.api.transform.integer.ReplaceEmptyIntegerWithValueTransform;
-import org.deeplearning4j.preprocessing.api.transform.integer.ReplaceInvalidWithIntegerTransform;
-import org.deeplearning4j.preprocessing.api.transform.normalize.Normalize;
-import org.deeplearning4j.preprocessing.api.transform.string.MapAllStringsExceptListTransform;
-import org.deeplearning4j.preprocessing.api.transform.string.RemoveWhiteSpaceTransform;
-import org.deeplearning4j.preprocessing.api.transform.string.ReplaceEmptyStringTransform;
-import org.deeplearning4j.preprocessing.api.transform.string.StringMapTransform;
+
+import io.skymind.echidna.api.TransformProcess;
+import io.skymind.echidna.api.analysis.DataAnalysis;
+import io.skymind.echidna.api.sequence.SplitMaxLengthSequence;
+import io.skymind.echidna.api.sequence.comparator.StringComparator;
+import io.skymind.echidna.api.filter.FilterInvalidValues;
+import io.skymind.echidna.api.schema.Schema;
+import io.skymind.echidna.api.transform.ConditionalTransform;
+import io.skymind.echidna.api.transform.categorical.CategoricalToIntegerTransform;
+import io.skymind.echidna.api.transform.categorical.IntegerToCategoricalTransform;
+import io.skymind.echidna.api.transform.categorical.StringToCategoricalTransform;
+import io.skymind.echidna.api.transform.integer.ReplaceEmptyIntegerWithValueTransform;
+import io.skymind.echidna.api.transform.integer.ReplaceInvalidWithIntegerTransform;
+import io.skymind.echidna.api.transform.normalize.Normalize;
+import io.skymind.echidna.api.transform.string.MapAllStringsExceptListTransform;
+import io.skymind.echidna.api.transform.string.RemoveWhiteSpaceTransform;
+import io.skymind.echidna.api.transform.string.ReplaceEmptyStringTransform;
+import io.skymind.echidna.api.transform.string.StringMapTransform;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -136,24 +132,6 @@ public class NB15Util {
                 .build();
 
         return seq;
-    }
-
-    public static Triple<TransformProcess, Schema, JavaRDD<List<Writable>>>
-            normalize(Schema schema, DataAnalysis da, JavaRDD<List<Writable>> input, SparkTransformExecutor executor) {
-
-        TransformProcess norm = getNormalizerSequence(schema,da);
-        Schema normSchema = norm.getFinalSchema();
-        JavaRDD<List<Writable>> normalizedData = executor.execute(input, norm);
-        return new Triple<>(norm, normSchema, normalizedData);
-    }
-
-    public static Triple<TransformProcess, Schema, JavaRDD<List<List<Writable>>>>
-        normalizeSequence(Schema schema, DataAnalysis da, JavaRDD<List<List<Writable>>> input, SparkTransformExecutor executor) {
-
-        TransformProcess norm = getNormalizerSequence(schema,da);
-        Schema normSchema = norm.getFinalSchema();
-        JavaRDD<List<List<Writable>>> normalizedData = executor.executeSequenceToSequence(input, norm);
-        return new Triple<>(norm, normSchema, normalizedData);
     }
 
     private static TransformProcess getNormalizerSequence(Schema schema, DataAnalysis da){

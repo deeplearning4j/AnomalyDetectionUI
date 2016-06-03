@@ -4,7 +4,7 @@ import org.deeplearning4j.examples.datasets.nb15.NB15Util;
 import org.deeplearning4j.examples.datasets.nb15.ui.NB15TableConverter;
 import org.deeplearning4j.examples.ui.TableConverter;
 import org.deeplearning4j.examples.ui.UIDriver;
-import org.deeplearning4j.preprocessing.api.schema.Schema;
+import io.skymind.echidna.api.schema.Schema;
 import org.deeplearning4j.ui.UiUtils;
 
 import java.util.List;

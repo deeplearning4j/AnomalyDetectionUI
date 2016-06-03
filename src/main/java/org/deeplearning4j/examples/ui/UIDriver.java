@@ -7,8 +7,8 @@ import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.math3.util.Pair;
+import org.canova.api.berkeley.Triple;
 import org.canova.api.util.ClassPathResource;
 import org.canova.api.writable.Writable;
 import org.deeplearning4j.examples.ui.components.*;
@@ -17,8 +17,6 @@ import org.deeplearning4j.examples.ui.resources.*;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scala.Tuple2;
-import scala.Tuple3;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -51,7 +49,7 @@ public class UIDriver extends Application<NIDSConfig> {
     private List<String> serviceNames;
     private int normalClassIdx;
 
-    private LinkedBlockingQueue<Tuple3<Long,INDArray,List<Writable>>> predictions = new LinkedBlockingQueue<>();
+    private LinkedBlockingQueue<Triple<Long,INDArray,List<Writable>>> predictions = new LinkedBlockingQueue<>();
     private AtomicBoolean shutdown = new AtomicBoolean(false);
 
     //Web targets: for posting results
@@ -154,16 +152,16 @@ public class UIDriver extends Application<NIDSConfig> {
 
 
     /** Method for adding a single prediction
-     * @param prediction Tuple3 containing: Example number, INDArray of predictions (classification probability distribution), original writables for display
+     * @param prediction Triple containing: Example number, INDArray of predictions (classification probability distribution), original writables for display
      */
-    public void addPrediction(Tuple3<Long,INDArray,List<Writable>> prediction){
+    public void addPrediction(Triple<Long,INDArray,List<Writable>> prediction){
         this.predictions.add(prediction);
     }
 
     /** Mthod for adding a multiple predictions
-     * @param predictions Tuple3s containing: Example number, INDArray of predictions (classification probability distribution), original writables for display
+     * @param predictions Triples containing: Example number, INDArray of predictions (classification probability distribution), original writables for display
      */
-    public void addPredictions(List<Tuple3<Long,INDArray,List<Writable>>> predictions){
+    public void addPredictions(List<Triple<Long,INDArray,List<Writable>>> predictions){
         this.predictions.addAll(predictions);
     }
 
@@ -180,7 +178,7 @@ public class UIDriver extends Application<NIDSConfig> {
         private long lastUpdateTime = 0;
         private LinkedList<Pair<Long,Double>> connectionRateHistory = new LinkedList<>();
         private LinkedList<Pair<Long,Double>> byteRateHistory = new LinkedList<>();
-        private LinkedList<Tuple3<Long,INDArray,List<Writable>>> lastAttacks = new LinkedList<>();
+        private LinkedList<Triple<Long,INDArray,List<Writable>>> lastAttacks = new LinkedList<>();
 
         //Keep a small history here, to smooth out the instantaneous rate calculations (i.e., delta(connections_now - connections_t-3)) etc
         private LinkedList<Long> flowCountHistory = new LinkedList<>();
@@ -208,7 +206,7 @@ public class UIDriver extends Application<NIDSConfig> {
                 serviceNamesHistory.put(s,list);
             }
 
-            List<Tuple3<Long,INDArray,List<Writable>>> list = new ArrayList<>(100);
+            List<Triple<Long,INDArray,List<Writable>>> list = new ArrayList<>(100);
             while(!shutdown.get()){
 
                 try{
@@ -227,12 +225,12 @@ public class UIDriver extends Application<NIDSConfig> {
                 Map<String,Integer> serviceCounts = new HashMap<>();
                 List<IntRenderElements> renderElementsList = new ArrayList<>();
 
-                for(Tuple3<Long,INDArray,List<Writable>> t3 : list){
-                    List<Writable> c = t3._3();
+                for(Triple<Long,INDArray,List<Writable>> t3 : list){
+                    List<Writable> c = t3.getThird();
                     List<Writable> listWritables = (c instanceof List ? ((List<Writable>)c) : new ArrayList<>(c));
 
                     //Post the details to the web server:
-                    int idx = (int)((long)t3._1());
+                    int idx = (int)((long)t3.getFirst());
 
                     if(sdBytesCol >= 0){
                         try{
@@ -255,7 +253,7 @@ public class UIDriver extends Application<NIDSConfig> {
                     }
 
                     //Now: determine if this is an attack or not...
-                    float[] probs = t3._2().data().asFloat();
+                    float[] probs = t3.getSecond().data().asFloat();
                     if(probs[normalClassIdx] < 0.5f){
                         //Attack
                         lastAttacks.add(t3);
@@ -372,9 +370,9 @@ public class UIDriver extends Application<NIDSConfig> {
 
                 String[][] table = new String[lastAttacks.size()][5];
                 int j=0;
-                for(Tuple3<Long,INDArray,List<Writable>> t3 : lastAttacks ){
-                    List<Writable> l = (t3._3() instanceof List ? ((List<Writable>)t3._3()) : new ArrayList<>(t3._3()));
-                    float[] probs = t3._2().data().asFloat();
+                for(Triple<Long,INDArray,List<Writable>> t3 : lastAttacks ){
+                    List<Writable> l = (t3.getThird() instanceof List ? ((List<Writable>)t3.getThird()) : new ArrayList<>(t3.getThird()));
+                    float[] probs = t3.getSecond().data().asFloat();
                     int maxIdx = 0;
                     for( int k=1; k<probs.length; k++ ){
                         if(probs[maxIdx] < probs[k] ) maxIdx = k;
@@ -383,7 +381,7 @@ public class UIDriver extends Application<NIDSConfig> {
                     float attackProb = 100.0f * (1.0f - probs[normalClassIdx]);
                     String attackProbStr = (attackProb <1.0f ? "< 1%" : String.format("%.1f",attackProb) + "%");
 
-                    table[j][0] = String.valueOf(t3._1());
+                    table[j][0] = String.valueOf(t3.getFirst());
                     table[j][1] = l.get(columnsMap.get("source ip")) + " : " + l.get(columnsMap.get("source port"));
                     table[j][2] = l.get(columnsMap.get("destination ip")) + " : " + l.get(columnsMap.get("destination port"));
                     table[j][3] = attackProbStr;

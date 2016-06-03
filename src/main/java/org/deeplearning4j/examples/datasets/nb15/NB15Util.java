@@ -1,14 +1,10 @@
 package org.deeplearning4j.examples.datasets.nb15;
 
-import org.apache.spark.api.java.JavaRDD;
-import org.canova.api.berkeley.Triple;
-import org.canova.api.writable.Writable;
+
 import io.skymind.echidna.api.TransformProcess;
 import io.skymind.echidna.api.analysis.DataAnalysis;
-import io.skymind.echidna.api.schema.SequenceSchema;
 import io.skymind.echidna.api.sequence.SplitMaxLengthSequence;
 import io.skymind.echidna.api.sequence.comparator.StringComparator;
-import io.skymind.echidna.spark.SparkTransformExecutor;
 import io.skymind.echidna.api.filter.FilterInvalidValues;
 import io.skymind.echidna.api.schema.Schema;
 import io.skymind.echidna.api.transform.ConditionalTransform;
@@ -136,24 +132,6 @@ public class NB15Util {
                 .build();
 
         return seq;
-    }
-
-    public static Triple<TransformProcess, Schema, JavaRDD<List<Writable>>>
-            normalize(Schema schema, DataAnalysis da, JavaRDD<List<Writable>> input, SparkTransformExecutor executor) {
-
-        TransformProcess norm = getNormalizerSequence(schema,da);
-        Schema normSchema = norm.getFinalSchema();
-        JavaRDD<List<Writable>> normalizedData = executor.execute(input, norm);
-        return new Triple<>(norm, normSchema, normalizedData);
-    }
-
-    public static Triple<TransformProcess, Schema, JavaRDD<List<List<Writable>>>>
-        normalizeSequence(Schema schema, DataAnalysis da, JavaRDD<List<List<Writable>>> input, SparkTransformExecutor executor) {
-
-        TransformProcess norm = getNormalizerSequence(schema,da);
-        Schema normSchema = norm.getFinalSchema();
-        JavaRDD<List<List<Writable>>> normalizedData = executor.executeSequenceToSequence(input, norm);
-        return new Triple<>(norm, normSchema, normalizedData);
     }
 
     private static TransformProcess getNormalizerSequence(Schema schema, DataAnalysis da){

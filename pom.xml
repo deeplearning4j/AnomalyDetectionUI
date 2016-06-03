@@ -121,11 +121,6 @@
             <artifactId>echidna-core</artifactId>
             <version>${echidna.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.skymind</groupId>
-            <artifactId>echidna-spark_${scala.binary.version}</artifactId>
-            <version>${echidna.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>io.dropwizard</groupId>

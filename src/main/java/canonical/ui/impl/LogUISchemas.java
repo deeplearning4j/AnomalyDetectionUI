@@ -4,15 +4,15 @@ import canonical.LogFormatProvider;
 import canonical.LogUriProvider;
 import canonical.Service;
 import canonical.ui.UIConstants;
-import io.skymind.echidna.api.ReduceOp;
-import io.skymind.echidna.api.TransformProcess;
-import io.skymind.echidna.api.reduce.IReducer;
-import io.skymind.echidna.api.reduce.Reducer;
-import io.skymind.echidna.api.schema.SequenceSchema;
-import io.skymind.echidna.api.sequence.window.ReduceSequenceByWindowTransform;
-import io.skymind.echidna.api.sequence.window.TimeWindowFunction;
-import io.skymind.echidna.api.sequence.window.WindowFunction;
-import io.skymind.echidna.api.transform.categorical.StringToCategoricalTransform;
+import org.datavec.api.transform.ReduceOp;
+import org.datavec.api.transform.TransformProcess;
+import org.datavec.api.transform.reduce.IReducer;
+import org.datavec.api.transform.reduce.Reducer;
+import org.datavec.api.transform.schema.SequenceSchema;
+import org.datavec.api.transform.sequence.window.ReduceSequenceByWindowTransform;
+import org.datavec.api.transform.sequence.window.TimeWindowFunction;
+import org.datavec.api.transform.sequence.window.WindowFunction;
+import org.datavec.api.transform.transform.categorical.StringToCategoricalTransform;
 import org.joda.time.DateTimeZone;
 
 import java.util.Arrays;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class LogUISchemas {
 
-    public static SequenceSchema getSchemaAtImport( Service service ){
+    public static SequenceSchema getSchemaAtImport(Service service ){
 
         SequenceSchema schema = (SequenceSchema)new SequenceSchema.Builder()
                 .addColumnCategorical("LogFileName", LogUriProvider.getLogFileNamesForService(service))

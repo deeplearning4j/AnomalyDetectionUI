@@ -1,7 +1,8 @@
 package canonical;
 
 
-import io.skymind.echidna.api.schema.SequenceSchema;
+
+import org.datavec.api.transform.schema.SequenceSchema;
 
 import java.net.URI;
 import java.util.ArrayList;

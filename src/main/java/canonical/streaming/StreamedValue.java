@@ -3,7 +3,7 @@ package canonical.streaming;
 import canonical.Service;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.canova.api.writable.Writable;
+import org.datavec.api.writable.Writable;
 
 import java.io.Serializable;
 import java.util.List;

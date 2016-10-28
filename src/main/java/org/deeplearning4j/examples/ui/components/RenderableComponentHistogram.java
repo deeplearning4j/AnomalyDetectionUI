@@ -2,7 +2,6 @@ package org.deeplearning4j.examples.ui.components;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import io.skymind.echidna.ui.components.RenderableComponent;
 
 import java.util.ArrayList;
 import java.util.List;

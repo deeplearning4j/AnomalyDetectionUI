@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.deeplearning4j.ui.api.Component;
+import org.deeplearning4j.ui.standalone.ClassPathResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,19 +52,13 @@ public abstract class StreamingUI extends Application<UiConfig> {
     //Contains the updates for each resource (resources: specified by String key)
     private Map<String,ConcurrentLinkedQueue<UiUpdate>> updatesForResources = new ConcurrentHashMap<>();
     private Map<String,WebTarget> webTargetsForResources = new ConcurrentHashMap<>();
-//    //Last time that updateUI(Component...) was called
-//    private long lastUIComponentUpdateTime = 0L;
-//    //Last time that the UI components were posted to the server
-//    private long lastUIComponentPostTime = 0L;
 
     public StreamingUI() {
-
-        //TODO: this is hacky, and needs to be done properly
         instance = this;
 
+        ClassPathResource cpr = new ClassPathResource("nids-dropwizard.yml");
         try {
-//            run("server", "dropwizard.yml");
-            run("server", "nids-dropwizard.yml");
+            run("server", cpr.getFile().getPath());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
